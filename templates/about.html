@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block aboutactive %} active {% endblock aboutactive %}>
+{%block title %} About {%endblock title %}
+
+{% block body %}
+
+<style>
+  .custom-card {
+    margin-bottom: 20px; 
+  }
+  .card-deck {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 30px;
+  }
+  </style>
+
+  <div class="container-fluid my-5 p-5">
+    <h2 class="text-center"> How It works </h2>
+
+    <div class="card-deck">
+
+      <div class="custom-card">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="https://source.unsplash.com/500x300/?headphones,music,producing" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Upload</h5>
+            <p class="card-text">Upload the audio file you wish to convert.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-card">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="https://source.unsplash.com/500x300/?artificial,Inteligence,robot" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Convert</h5>
+            <p class="card-text">Hit convert button and wait for AI to speak or sing your file.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-card">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="https://source.unsplash.com/500x300/?songartists,popular" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Download</h5>
+            <p class="card-text">The Ai has now recorded the audio and is ready for download.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock body %}
