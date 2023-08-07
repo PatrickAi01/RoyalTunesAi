@@ -14,9 +14,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-is=+e_!hev5j4p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.environ.get('DEBUG')) == "1" 
 
-ALLOWED_HOSTS = ["127.0.0.1", 'localhost']
-if not DEBUG:
-    ALLOWED_HOSTS += [os.environ.get('DJANGO_ALLOWED_HOST')]
+ALLOWED_HOSTS = ['*']
+#if not DEBUG:
+    #ALLOWED_HOSTS += [os.environ.get('DJANGO_ALLOWED_HOST')]
 
 # Application definition
 
@@ -72,7 +72,7 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
+"""
 POSTGRES_DB = os.environ.get("POSTGRES_DB") #database name
 POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD") #database userpassword 
 POSTGRES_USER = os.environ.get("POSTGRES_USER") #database username
@@ -82,7 +82,7 @@ POSTGRES_PORT = os.environ.get("POSTGRES_PORT") #database port
 POSTGRES_READY = (
     POSTGRES_DB is not None
     and POSTGRES_PASSWORD is not None
-    and POSTGRES_USER is not None
+    and POSTGRES_USER is not None 
     and POSTGRES_HOST is not None
     and POSTGRES_PORT is not None
 )
@@ -98,7 +98,7 @@ if POSTGRES_READY:
             "PORT": POSTGRES_PORT,
         }
     }
-
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -135,6 +135,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+
+#STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
