@@ -16,8 +16,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True #for development only, comment out in deployment and uncomment bottom code
-#DEBUG = os.getenv('DEBUG', 'False') == 'True'
+#DEBUG = True #for development only, comment out in deployment and uncomment bottom code
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 
 
@@ -73,7 +73,7 @@ WSGI_APPLICATION = "RTAwebsite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-"""
+
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
 if DEVELOPMENT_MODE is True:
@@ -90,15 +90,16 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
         
     }
-"""
 
+"""
+#development database
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "mydatabase.sqlite3"),  # Replace with the desired database name
     }
 }
-
+"""
 
 """
 POSTGRES_DB = os.environ.get("POSTGRES_DB") #database name
