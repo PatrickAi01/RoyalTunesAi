@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from websets.models import Customer
+from django.core.validators import FileExtensionValidator
 
 
 class CustomerForm(ModelForm):
@@ -17,4 +18,6 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
         
+class audioAccept(forms.Form):
+    audioFile = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['mp3', 'wav', 'ogg'])])
         

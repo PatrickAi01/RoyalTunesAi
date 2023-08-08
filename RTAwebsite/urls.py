@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from RTAwebsite import views
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', views.home, name='home'),
@@ -15,4 +16,5 @@ urlpatterns = [
     path('aiModels', views.aiModels, name='aiModels'),
     path('contact', views.contact, name='contact'),
     path('userAccount', views.userAccount, name='userAccount'),
+    path('conversion', views.conversion, name='conversion'),
 ]

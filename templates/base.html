@@ -45,10 +45,17 @@
       height: 100%;
       background: linear-gradient(90deg, rgba(205, 255, 216, 100) 0%, rgba(148, 185, 255, 100) 100%) !important;
     }
+    
+    .page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the container takes at least the viewport height */
+  }
 
-    .content {
-      margin-bottom: 60px; /* Adjust the margin to make space for the footer */
-    }
+  .content {
+    flex: 1; /* Allow the content to grow and fill the remaining space */
+    padding-bottom: 60px; /* Adjust the padding to make space for the footer */
+  }
 
     footer {
       /* background-color: #343a40; */
@@ -69,6 +76,7 @@
 </head>
 
 <body>
+  <div class="page-wrapper">
   <nav class="navbar navbar-expand-md fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="/home">RoyalTunes</a>
@@ -87,6 +95,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link{% block aiModelsactive %}{% endblock aiModelsactive %}" href="/aiModels">Ai models</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link{% block conversionactive %}{% endblock conversionactive %}" href="/conversion">Convert</a>
           </li>
           <li class="nav-item">
             <a class="nav-link{% block contactactive %}{% endblock contactactive %}" href="/contact">Contact Us</a>
