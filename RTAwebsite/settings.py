@@ -1,8 +1,6 @@
 from django.core.management.utils import get_random_secret_key
 from pathlib import Path
-import os
-import sys
-import dj_database_url
+import os, sys#, dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,8 +20,8 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-#if not DEBUG:
-    #ALLOWED_HOSTS += [os.environ.get('DJANGO_ALLOWED_HOST')]
+if not DEBUG:
+    ALLOWED_HOSTS += [os.environ.get('DJANGO_ALLOWED_HOST')]
 
 # Application definition
 
@@ -73,10 +71,8 @@ WSGI_APPLICATION = "RTAwebsite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
-
-if DEVELOPMENT_MODE is True:
+"""
+if DEBUG is True:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -93,41 +89,42 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
 
 """
 #development database
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "mydatabase.sqlite3"),  # Replace with the desired database name
+if DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "mydatabase.sqlite3"),  # Replace with the desired database name
+        }
     }
-}
-"""
+else:
+    """
+    POSTGRES_DB = os.environ.get("db")
+    POSTGRES_PASSWORD = os.environ.get("AVNS_5LxrmzcLJWrTcebwiv0")
+    POSTGRES_USER = os.environ.get("db")
+    POSTGRES_HOST = os.environ.get("app-8551d3b6-dafc-4f29-9fb4-5467fbc7c822-do-user-14476911-0.b.db.ondigitalocean.com")
+    POSTGRES_PORT = os.environ.get("25060")
 
-"""
-POSTGRES_DB = os.environ.get("POSTGRES_DB") #database name
-POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD") #database userpassword 
-POSTGRES_USER = os.environ.get("POSTGRES_USER") #database username
-POSTGRES_HOST = os.environ.get("POSTGRES_HOST") #database host
-POSTGRES_PORT = os.environ.get("POSTGRES_PORT") #database port
+    POSTGRES_READY = (
+        POSTGRES_DB is not None
+        and POSTGRES_PASSWORD is not None
+        and POSTGRES_USER is not None
+        and POSTGRES_HOST is not None
+        and POSTGRES_PORT is not None
+    )
 
-POSTGRES_READY = (
-    POSTGRES_DB is not None
-    and POSTGRES_PASSWORD is not None
-    and POSTGRES_USER is not None 
-    and POSTGRES_HOST is not None
-    and POSTGRES_PORT is not None
-)
-
-if POSTGRES_READY:
+    if POSTGRES_READY:"""
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": POSTGRES_DB,
-            "USER": POSTGRES_USER,
-            "PASSWORD": POSTGRES_PASSWORD,
-            "HOST": POSTGRES_HOST,
-            "PORT": POSTGRES_PORT,
+            "NAME": "db",
+            "USER": "db",
+            "PASSWORD": "AVNS_5LxrmzcLJWrTcebwiv0",
+            "HOST": "app-8551d3b6-dafc-4f29-9fb4-5467fbc7c822-do-user-14476911-0.b.db.ondigitalocean.com",
+            "PORT": "25060",
         }
     }
-"""
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -166,6 +163,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
