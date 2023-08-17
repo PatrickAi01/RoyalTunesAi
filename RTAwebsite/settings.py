@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False #for development only, comment out in deployment and uncomment bottom code
+DEBUG = True #for development only, comment out in deployment and uncomment bottom code
 #DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 
@@ -71,7 +71,7 @@ WSGI_APPLICATION = "RTAwebsite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-"""
+
 if DEBUG is True:
     DATABASES = {
         "default": {
@@ -79,6 +79,8 @@ if DEBUG is True:
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
+
+"""    
 elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
@@ -86,6 +88,8 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
         
     }
+make this work?
+"""
 
 """
 #development database
@@ -93,11 +97,11 @@ if DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "mydatabase.sqlite3"),  # Replace with the desired database name
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),  # Replace with the desired database name
         }
     }
 else:
-    """
+    
     POSTGRES_DB = os.environ.get("db")
     POSTGRES_PASSWORD = os.environ.get("AVNS_5LxrmzcLJWrTcebwiv0")
     POSTGRES_USER = os.environ.get("db")
@@ -112,18 +116,18 @@ else:
         and POSTGRES_PORT is not None
     )
 
-    if POSTGRES_READY:"""
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "db",
-            "USER": "db",
-            "PASSWORD": "AVNS_5LxrmzcLJWrTcebwiv0",
-            "HOST": "app-8551d3b6-dafc-4f29-9fb4-5467fbc7c822-do-user-14476911-0.b.db.ondigitalocean.com",
-            "PORT": "25060",
+    if POSTGRES_READY:
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "db",
+        "USER": "db",
+        "PASSWORD": "AVNS_5LxrmzcLJWrTcebwiv0",
+        "HOST": "app-8551d3b6-dafc-4f29-9fb4-5467fbc7c822-do-user-14476911-0.b.db.ondigitalocean.com",
+        "PORT": "25060",
         }
     }
-
+"""
 
 
 # Password validation
