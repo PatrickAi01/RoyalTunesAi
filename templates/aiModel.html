@@ -24,13 +24,32 @@
     font-weight: bold;
   }
   .custom-card {
+    margin-left: 15px;
+    margin-right: 15px;
     margin-bottom: 20px; 
   }
   .card-deck {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 30px;
+    justify-content: center;
+    padding: 25px;
+  }
+
+  @media (min-width: 1200px){
+    body{
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .card-deck{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+    .custom-card{
+      flex-basis: calc(33.33% - 30px);
+    }
   }
 
   </style>
