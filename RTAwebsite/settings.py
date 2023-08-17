@@ -71,7 +71,7 @@ WSGI_APPLICATION = "RTAwebsite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
+"""
 if DEBUG is True:
     DATABASES = {
         "default": {
@@ -80,7 +80,7 @@ if DEBUG is True:
         }
     }
 
-"""    
+    
 elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
@@ -116,7 +116,7 @@ else:
         and POSTGRES_PORT is not None
     )
 
-    if POSTGRES_READY:
+    if POSTGRES_READY:"""
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -127,7 +127,7 @@ DATABASES = {
         "PORT": "25060",
         }
     }
-"""
+
 
 
 # Password validation
