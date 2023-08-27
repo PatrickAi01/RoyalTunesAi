@@ -129,7 +129,16 @@ def conversion(request):
                 'form': form,
                 'uploaded_file_name': uploaded_file.name if uploaded_file else None,
                 'processed_data': data,
-            }
+                }
+
+            for file in os.listdir(uploaded_file_path):
+                file_path_to_delete = os.path.join(uploaded_file_path, file)
+                try:
+                    if os.path.isfile(file_path_to_delete):
+                        os.remove(file_path_to_delete)
+                except Exception as e:
+                    print(f"Error deleting file: {e}")
+
             return render(request, 'conversion.html', context)
     else:
         form = audioAccept()

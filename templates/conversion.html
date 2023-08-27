@@ -45,7 +45,19 @@
     <p>Generated Audio File: {{ output_audio_filename }}</p>
     <p>Processed Data: {{ processed_data }}</p>
     <!-- Add more fields as needed -->
-    {% endif %}
+
+    <!-- audio player -->
+    <audio controls>
+        <source src="data:audio/wav;base64,{{ base64_audio_data }}">
+        Your browser does not support the audio element.
+    </audio>
+    
+
+        <!-- download link 
+        <p><a href="{{ output_audio_url }}" download>Download Converted Audio</a></p>-->
+
+    {% endif %} 
+        
 
     {% if status_message %}
     <div class="status-message">
