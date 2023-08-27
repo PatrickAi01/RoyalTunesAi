@@ -1,16 +1,15 @@
 import os
+import requests, base64
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from websets.forms import CreateUserForm
-from websets.forms import audioAccept
+from websets.forms import audioAccept, CreateUserForm
 from websets.models import Contact
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 
-def home(request): 
-    context = {'Name': 'Patrick', 'conversionPage':'AIVoices'}
+def home(request):
+    context = {'Name': 'Patrick', 'conversionPage': 'AIVoices'}
     return render(request, 'home.html', context)
 
 
@@ -39,17 +38,18 @@ def loginPage(request):
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
-        
+
             user = authenticate(request, username=username, password=password)
-        
+
             if user is not None:
                 login(request, user)
                 return redirect('home')
             else:
                 messages.info(request, 'Username or Password is incorrect')
-        
+
         context = {}
         return render(request, 'loginPage.html', context)
+
 
 def logoutUser(request):
     logout(request)
@@ -59,8 +59,10 @@ def logoutUser(request):
 def about(request):
     return render(request, 'about.html')
 
+
 def aiModels(request):
     return render(request, 'aiModel.html')
+
 
 def contact(request):
     if request.method == "POST":
@@ -68,40 +70,69 @@ def contact(request):
         email = request.POST['email']
         phone = request.POST['phone']
         desc = request.POST['desc']
-       
+
         contact = Contact(name=name, email=email, phone=phone, desc=desc)
         contact.save()
         print("The data has been written to the db")
 
     return render(request, 'contact.html')
 
+
 def userAccount(request):
     return render(request, 'userAccount.html')
+
 
 def conversion(request):
     if request.method == 'POST':
         form = audioAccept(request.POST, request.FILES)
         if form.is_valid():
             uploaded_file = form.cleaned_data['audioFile']
-            
-            # Determine the path to save the uploaded file
-            save_path = os.path.join(settings.MEDIA_ROOT, 'accepted_Audio')  # 'accepted_Audio' is the subdirectory where you want to save the files
-            os.makedirs(save_path, exist_ok=True)  # Create the directory if it doesn't exist
-            
-            # Construct the full file path
+
+            uploaded_file_path = os.path.join(settings.MEDIA_ROOT, 'accepted_Audio')
+            os.makedirs(uploaded_file_path, exist_ok=True)
             file_name = uploaded_file.name
-            file_path = os.path.join(save_path, file_name)
-            
-            # Save the uploaded file to the desired location
+            file_path = os.path.join(uploaded_file_path, file_name)
+
+
             with open(file_path, 'wb') as destination:
                 for chunk in uploaded_file.chunks():
                     destination.write(chunk)
-            
-            # Handle the uploaded file processing here, if needed
-            
+
+            # Prepare the API request
+            api_url = "http://localhost:7865/run/infer_convert_batch"
+            audio_data = uploaded_file.read()
+            base64_audio_data = base64.b64encode(audio_data).decode('utf-8')
+            payload = {
+                "data": [
+                    0,
+                    r"/Users/patrickdail/RoyalTunes/RoyalTunesAiMobagi/media/accepted_Audio",
+                    "opt",
+                    {"name": "zip.zip", "data": f"data:@file/octet-stream;base64,{base64_audio_data}"},
+                    0,
+                    "rmvpe",
+                    "hello world",
+                    "logs/guanguanV1.index",
+                    1,
+                    3,
+                    0,
+                    1,
+                    0.33,
+                    "wav",
+                ]
+            }
+
+            # Make the API request
+            response = requests.post(api_url, json=payload).json()
+            data = response["data"]
+
+            context = {
+                'form': form,
+                'uploaded_file_name': uploaded_file.name if uploaded_file else None,
+                'processed_data': data,
+            }
+            return render(request, 'conversion.html', context)
     else:
         form = audioAccept()
-    
+
     context = {'form': form}
     return render(request, 'conversion.html', context)
-

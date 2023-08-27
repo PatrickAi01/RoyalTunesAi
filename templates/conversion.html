@@ -7,41 +7,50 @@
 
 {% block body %}
 <style>
-.custom-button0 {
-    background-color: rgba(52, 58, 64, 1);
-    border-color: rgba(52, 58, 64, 1); 
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.margin-container {
-    margin: 0 15px; /* Adjust the margin values as needed */
-}
-
-/* Adjust the width of the select dropdown */
-.form-select {
-    width: 75%; /* Set the width to your desired value */
-}
+/* Your existing CSS styles here */
 </style>
 
 <div class="container-fluid margin-container" style="padding-top: 120px;">
-    <h2>Upload Audio File</h2>
+    <h2>Convert Audio File</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary custom-button0">Upload File</button>
+
+        <!-- Add a dropdown for selecting the speaker -->
+        <label for="ai_model">Select Speaker:</label>
+        <select class="form-select" name="ai_model" id="ai_model">
+            <option value="tamil_female">Tamil Female</option>
+            <option value="assamese_male">Assamese Male</option>
+            <option value="random">Random</option>
+            <!-- Add more options for other speakers -->
+        </select>
+
+        <button type="submit" class="btn btn-primary custom-button0">Convert File</button>
     </form>
 
-    <div class="container-fluid" style="padding-top: 70px;"></div>
-    <h2>Select Your Ai</h2>
-    <select class="form-select">
-        <option value="file1">Spongebob</option>
-        <option value="file2">Patrick</option>
-        <option value="file3">Squidward</option>
-        <option value="file4">Plankton</option>
-        <option value="file5">Mr.Krabs</option>
-        <option value="file6">Madea</option>
-        <!-- Add more options as needed -->
-    </select>
+    {% if uploaded_file_name %}
+    <p>Uploaded File: {{ uploaded_file_name }}</p>
+    {% endif %}
+
+    {% if error_message %}
+    <div class="alert alert-danger" role="alert">
+        {{ error_message }}
+    </div>
+    {% endif %}
+
+    {% if processed_data %}
+    <h2>Audio Conversion Results</h2>
+    <p>Uploaded File: {{ uploaded_file_name }}</p>
+    <p>Selected Speaker: {{ selected_speaker }}</p>
+    <p>Generated Audio File: {{ output_audio_filename }}</p>
+    <p>Processed Data: {{ processed_data }}</p>
+    <!-- Add more fields as needed -->
+    {% endif %}
+
+    {% if status_message %}
+    <div class="status-message">
+        {{ status_message }}
+    </div>
+    {% endif %}
 </div>
 {% endblock body %}
